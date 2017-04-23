@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LED Controller</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-colorpicker.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>LED Controller</h1>
+        <p>Select a color.</p>
+      </div>
+      <div id="cp3" class="input-group colorpicker-component">
+          <input type="text" value="#00AABB" class="form-control" />
+          <span class="input-group-addon"><i></i></span>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="/javascripts/bootstrap-colorpicker.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('#cp3').colorpicker({
+          color: '#AA3399',
+          format: 'rgb',
+        });
+        $('#cp3>input').on('change', function(event) {
+          var rgbRE = /^rgb\((\d+),(\d+),(\d+)\)$/
+          var match = rgbRE.exec(event.target.value)
+          var redVal = match[1]
+          var greenVal = match[2]
+          var blueVal = match[3]
+
+          $.post("/led", {red: redVal, green: greenVal, blue: blueVal})
+        })
+      });
+    </script>
+  </body>
+</html>
